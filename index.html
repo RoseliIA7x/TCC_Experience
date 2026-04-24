@@ -876,16 +876,6 @@ async function startGameAsHost() {
     currentTurnIndex: 0
   });
   
-  const now = Date.now();
-  await updateDoc(roomRef, {
-    status: 'playing',
-    startTime: serverTimestamp(),
-    endTime: new Date(now + 600000),
-    playerOrder: shuffled,
-    currentTurnIndex: 0,
-    ...orderData
-  });
-  
   state.gameActive = true;
   state.matchStartTime = now;
   state.timerRemaining = 600;
