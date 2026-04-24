@@ -15,7 +15,7 @@
   --bg-card2:rgba(18,18,32,.92);--text:#e8e8f0;--text2:#8888aa;--r:12px;
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;display:flex;flex-direction:column}
 
 /* Background */
 .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -45,14 +45,15 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 @keyframes timerWarning{0%,100%{color:var(--neon-red);text-shadow:0 0 10px rgba(255,51,85,.8)}50%{color:#fff;text-shadow:0 0 20px rgba(255,51,85,1),0 0 40px rgba(255,51,85,.5)}}
 @keyframes borderPulse{0%,100%{border-color:rgba(255,51,85,.3);box-shadow:0 0 10px rgba(255,51,85,.2)}50%{border-color:var(--neon-red);box-shadow:0 0 25px rgba(255,51,85,.6),0 0 50px rgba(255,51,85,.3)}}
 @keyframes borderGlow{0%,100%{border-color:rgba(0,212,255,.3)}50%{border-color:rgba(0,212,255,.8)}}
+@keyframes notifySlide{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 
 /* Container & Screens */
-.container{position:relative;z-index:2;max-width:500px;margin:0 auto;padding:16px;min-height:100vh}
+.container{position:relative;z-index:2;max-width:500px;margin:0 auto;padding:16px;min-height:100vh;flex:1}
 .screen{display:none;animation:fadeUp .35s ease}
 .screen.active{display:block}
 .hidden{display:none!important}
 
-/* Landing */
+/* Landing & Welcome */
 .landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:30px 20px}
 .logo-wrap{margin-bottom:24px;animation:slideDown .6s ease}
 .logo-icon{width:90px;height:90px;margin:0 auto 12px}
@@ -62,6 +63,14 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .landing-desc{font-size:1.05rem;color:var(--text2);max-width:340px;margin:0 auto 28px;line-height:1.5}
 .landing-features{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
 .feature-tag{padding:5px 14px;border-radius:20px;font-size:.78rem;font-weight:600;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--text2);letter-spacing:.5px}
+
+/* Welcome Screen */
+.welcome-info{background:var(--bg-card);border:1px solid rgba(0,212,255,.2);border-radius:var(--r);padding:20px;margin-bottom:24px;text-align:left}
+.welcome-info h3{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--neon-blue);margin-bottom:12px}
+.welcome-info ul{list-style:none;padding-left:0}
+.welcome-info li{padding:6px 0;color:var(--text2);font-size:.9rem}
+.welcome-info li::before{content:'▸ ';color:var(--neon-green);margin-right:8px}
+.welcome-buttons{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px}
 
 /* Inputs & Buttons */
 .input-group{width:100%;max-width:320px;margin-bottom:16px;animation:fadeUp .5s ease .1s both}
@@ -85,6 +94,8 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .btn-finish:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-leave{background:linear-gradient(135deg,var(--neon-red),#cc2944);color:#fff;font-weight:700;box-shadow:0 4px 20px rgba(255,51,85,.25);flex:1}
 .btn-leave:hover{box-shadow:0 4px 30px rgba(255,51,85,.4);transform:translateY(-2px)}
+.btn-create{background:linear-gradient(135deg,var(--neon-green),#00cc6a);color:#0a0a0f;width:100%;max-width:320px;margin-bottom:12px}
+.btn-join{background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));color:#fff;width:100%;max-width:320px}
 
 /* Room Code */
 .room-code{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;letter-spacing:8px;color:var(--neon-yellow);text-shadow:0 0 15px rgba(255,228,77,.5);margin:10px 0;padding:10px 20px;background:rgba(255,228,77,.1);border-radius:var(--r);border:2px solid rgba(255,228,77,.3);display:inline-block}
@@ -104,6 +115,7 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .hud-combo{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--neon-orange);display:flex;align-items:center;gap:4px}
 .hud-combo .fire{font-size:1rem}
 .hud-combo.combo-high{color:var(--neon-yellow);animation:comboPop .3s ease}
+.hud-turn{font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;color:var(--neon-yellow);padding:4px 10px;background:rgba(255,228,77,.1);border-radius:12px;border:1px solid rgba(255,228,77,.3)}
 .energy-bar-wrap{margin-top:8px;height:4px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
 .energy-bar{height:100%;border-radius:4px;transition:width .5s ease;background:linear-gradient(90deg,var(--neon-blue),var(--neon-green));box-shadow:0 0 8px rgba(0,255,136,.4)}
 
@@ -137,6 +149,7 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .color-btn.yellow:hover{border-color:var(--neon-yellow);box-shadow:0 0 20px rgba(255,228,77,.25)}
 .color-btn.green{background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:#5affaa}
 .color-btn.green:hover{border-color:var(--neon-green);box-shadow:0 0 20px rgba(0,255,136,.25)}
+.color-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .color-emoji{font-size:1.4rem;display:block;margin-bottom:4px}
 
 /* Special Houses */
@@ -221,12 +234,21 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .rk-score{font-family:'Orbitron',sans-serif;font-size:.75rem;font-weight:700;color:var(--neon-green)}
 .rk-current-tag{font-size:.6rem;font-weight:700;color:var(--neon-blue);background:rgba(0,212,255,.1);padding:2px 6px;border-radius:10px}
 
-/* Global Ranking */
-#global-ranking-wrap{margin-top:20px}
-#global-ranking-list{list-style:none;max-height:280px;overflow-y:auto;padding:0}
-#global-ranking-list li{display:flex;align-items:center;gap:10px;padding:10px 14px;margin-bottom:6px;background:rgba(255,255,255,.03);border-radius:10px;border:1px solid rgba(255,255,255,.06);font-size:.9rem;transition:transform .2s}
-#global-ranking-list li:hover{transform:translateX(4px);background:rgba(255,255,255,.06)}
-.gr-title{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-left:auto;text-transform:uppercase;letter-spacing:.5px}
+/* Global Ranking - Top 3 */
+.global-ranking-wrap{margin-top:20px}
+.global-ranking-list{list-style:none;padding:0}
+.global-ranking-item{display:flex;align-items:center;gap:12px;padding:12px 16px;margin-bottom:8px;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(255,255,255,.06);transition:transform .2s}
+.global-ranking-item:hover{transform:translateX(4px)}
+.global-ranking-item.top1{background:linear-gradient(135deg,rgba(255,228,77,.15),rgba(255,215,0,.08));border:2px solid var(--neon-yellow);box-shadow:0 0 20px rgba(255,228,77,.2)}
+.global-ranking-item.top2{background:linear-gradient(135deg,rgba(192,192,192,.15),rgba(169,169,169,.08));border:2px solid #c0c0c0}
+.global-ranking-item.top3{background:linear-gradient(135deg,rgba(205,127,50,.15),rgba(184,115,51,.08));border:2px solid #cd7f32}
+.gr-pos{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;width:36px;text-align:center}
+.gr-pos.gold{color:var(--neon-yellow);font-size:1.5rem}
+.gr-pos.silver{color:#c0c0c0;font-size:1.3rem}
+.gr-pos.bronze{color:#cd7f32;font-size:1.3rem}
+.gr-name{flex:1;font-weight:700;font-size:1rem}
+.gr-wins{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:700;color:var(--neon-green)}
+.gr-title{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px}
 .gr-title.iniciante{background:rgba(136,136,170,.2);color:var(--text2)}
 .gr-title.aprendiz{background:rgba(0,212,255,.15);color:var(--neon-blue)}
 .gr-title.mestre{background:rgba(180,74,255,.15);color:var(--neon-purple)}
@@ -240,12 +262,25 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .player-status{width:10px;height:10px;border-radius:50%;background:var(--neon-green);flex-shrink:0}
 .player-status.waiting{background:var(--neon-orange)}
 .player-status.finished{background:var(--neon-yellow)}
+.player-status.playing{background:var(--neon-blue)}
 .player-name{flex:1;font-weight:600}
+.player-order{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--neon-yellow);margin-right:8px}
 .player-score{font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--neon-green);font-weight:700}
+
+/* Notifications */
+.notification{position:fixed;top:80px;right:16px;z-index:200;background:var(--bg-card2);border:1px solid var(--neon-blue);border-radius:var(--r);padding:12px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:notifySlide .3s ease;max-width:280px}
+.notification-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--neon-blue)}
+.notification-text{font-size:.85rem;color:var(--text2)}
 
 /* Action Buttons */
 .action-buttons{position:fixed;bottom:16px;left:16px;right:16px;z-index:50;display:flex;gap:10px}
 .action-buttons .btn{padding:12px 16px;font-size:.85rem;border-radius:10px}
+
+/* Turn Indicator */
+.turn-indicator{background:linear-gradient(135deg,rgba(255,228,77,.1),rgba(255,215,0,.05));border:2px solid var(--neon-yellow);border-radius:var(--r);padding:12px;margin:16px 0;text-align:center}
+.turn-indicator.my-turn{background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,255,136,.05));border-color:var(--neon-green);animation:borderGlow 2s infinite}
+.turn-text{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:var(--neon-yellow)}
+.turn-text.my-turn{color:var(--neon-green)}
 
 /* History */
 .history-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
@@ -263,6 +298,8 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .end-title{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .end-subtitle{color:var(--text2);font-size:1rem;margin-bottom:24px}
 .winner-badge{display:inline-block;padding:8px 20px;border-radius:30px;background:linear-gradient(135deg,var(--neon-yellow),#ffaa00);color:#0a0a0f;font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:16px;box-shadow:0 0 20px rgba(255,215,0,.4)}
+.final-ranking{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:16px;margin:16px 0}
+.final-ranking-title{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:700;text-align:center;margin-bottom:12px;color:var(--neon-yellow)}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 .stat-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:var(--r);padding:16px;text-align:center}
 .stat-value{font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:800;color:var(--neon-green)}
@@ -270,6 +307,11 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 .stat-value.purple{color:var(--neon-purple)}
 .stat-value.yellow{color:var(--neon-yellow)}
 .stat-label{font-size:.75rem;color:var(--text2);margin-top:4px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+
+/* Footer */
+.footer{background:var(--bg-card2);border-top:1px solid rgba(0,212,255,.1);padding:20px 16px;margin-top:auto;text-align:center}
+.footer-text{font-size:.85rem;color:var(--text2)}
+.footer-creator{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:600;color:var(--neon-blue);margin-top:4px}
 
 /* Confetti */
 .confetti-piece{position:fixed;z-index:100;pointer-events:none;width:8px;height:8px;opacity:.9;animation:confettiFall linear forwards}
@@ -296,11 +338,14 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 <div class="timer-bar"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
 <div class="timer-display hidden" id="timerDisplay">10:00</div>
 
+<!-- Notifications Container -->
+<div id="notificationsContainer"></div>
+
 <!-- Main Container -->
 <div class="container">
 
-  <!-- LANDING -->
-  <div class="screen active" id="screen-landing">
+  <!-- SCREEN 1: LOGIN -->
+  <div class="screen active" id="screen-login">
     <div class="landing">
       <div class="logo-wrap">
         <div class="logo-icon">
@@ -315,48 +360,65 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
           </svg>
         </div>
         <div class="logo-title">TCC<br>EXPERIENCE</div>
-        <div class="logo-badge">⚡ Multiplayer • Timer • Ranking</div>
+        <div class="logo-badge">⚡ Jogo Educativo Multiplayer</div>
       </div>
-      <p class="landing-desc">Jogue com amigos em tempo real! Partidas de 10 minutos, 1 vencedor, ranking global.</p>
-      <div class="landing-features">
-        <span class="feature-tag">👥 Salas</span>
-        <span class="feature-tag">⏱️ 10min</span>
-        <span class="feature-tag">🏆 1 Vencedor</span>
-        <span class="feature-tag">🌐 Global</span>
-      </div>
+      <p class="landing-desc">Entre com seu nome para começar a jogar</p>
       <div class="input-group">
-        <label>SEU NOME</label>
-        <input type="text" class="text-input" id="playerName" placeholder="Digite seu nome..." maxlength="20">
+        <label>NOME DE USUÁRIO</label>
+        <input type="text" class="text-input" id="loginName" placeholder="Digite seu nome..." maxlength="20">
       </div>
-      <div class="input-group">
-        <label class="room-label">CÓDIGO DA SALA (opcional)</label>
-        <input type="text" class="text-input" id="roomCode" placeholder="Deixe vazio para criar" maxlength="6" style="text-transform:uppercase;text-align:center;letter-spacing:4px">
+      <button class="btn btn-primary" id="btnLogin">🚀 CONTINUAR</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: WELCOME -->
+  <div class="screen" id="screen-welcome">
+    <div class="landing">
+      <div class="logo-wrap">
+        <div class="logo-title">BEM-VINDO!</div>
       </div>
-      <button class="btn btn-primary" id="btnJoin">🚀 ENTRAR / CRIAR SALA</button>
+      
+      <div class="welcome-info">
+        <h3>📋 COMO JOGAR</h3>
+        <ul>
+          <li>Partidas de 10 minutos com até 10 jogadores</li>
+          <li>Responda perguntas de TCC e acumule pontos</li>
+          <li>Cada jogador joga na sua vez (ordem aleatória)</li>
+          <li>Use casas especiais estrategicamente</li>
+          <li>Quem fizer mais pontos vence!</li>
+        </ul>
+      </div>
+
+      <div class="welcome-buttons">
+        <button class="btn btn-create" id="btnCreateRoom">🎲 CRIAR SALA</button>
+        <button class="btn btn-join" id="btnJoinRoom">🔗 ENTRAR EM SALA</button>
+      </div>
 
       <!-- Global Ranking -->
-      <div id="global-ranking-wrap" style="display:none;margin-top:24px">
-        <p class="section-title" style="color:var(--neon-yellow)">🏆 RANKING GLOBAL</p>
-        <ul id="global-ranking-list"></ul>
+      <div id="global-ranking-wrap" class="global-ranking-wrap">
+        <p class="section-title" style="color:var(--neon-yellow);margin-top:32px">🏆 TOP 3 VENCEDORES</p>
+        <ul id="global-ranking-list" class="global-ranking-list"></ul>
       </div>
     </div>
   </div>
 
-  <!-- LOBBY -->
+  <!-- SCREEN 3: LOBBY -->
   <div class="screen" id="screen-lobby">
     <div class="landing">
       <p class="section-title">🎮 SALA: <span class="room-code" id="lobbyRoomCode">---</span></p>
-      <p style="color:var(--text2);margin-bottom:20px">Aguardando jogadores... O host inicia quando estiver pronto.</p>
+      <p style="color:var(--text2);margin-bottom:20px">Aguardando jogadores... O host inicia quando todos estiverem prontos.</p>
+      
       <div class="lobby-card">
-        <p class="lobby-title">👥 JOGADORES (<span id="playerCount">0</span>/4)</p>
+        <p class="lobby-title">👥 JOGADORES (<span id="playerCount">0</span>/10)</p>
         <ul class="players-list" id="playersList"></ul>
       </div>
+
       <button class="btn btn-primary hidden" id="btnStartAsHost" style="background:linear-gradient(135deg,var(--neon-green),#00cc6a)">🎲 INICIAR PARTIDA</button>
       <button class="btn btn-leave mt-12" id="btnLeaveLobby" style="width:100%">🚪 SAIR DA SALA</button>
     </div>
   </div>
 
-  <!-- GAME SCREEN -->
+  <!-- SCREEN 4: GAME -->
   <div class="screen" id="screen-game">
 
     <!-- HUD -->
@@ -367,6 +429,11 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
         <div class="hud-combo" id="hudCombo"><span class="fire">🔥</span> Combo: 0</div>
       </div>
       <div class="energy-bar-wrap"><div class="energy-bar" id="energyBar" style="width:0%"></div></div>
+    </div>
+
+    <!-- Turn Indicator -->
+    <div id="turnIndicator" class="turn-indicator hidden">
+      <div class="turn-text" id="turnText">Aguardando sua vez...</div>
     </div>
 
     <!-- Level -->
@@ -388,7 +455,7 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
     <!-- TAB: Play -->
     <div class="tab-content active" id="tab-play">
       <div id="phase-color">
-        <p class="section-title">🎲 Em qual cor você caiu?</p>
+        <p class="section-title">🎲 Sua vez de jogar!</p>
         <div class="color-grid">
           <button class="color-btn red" data-cor="red"><span class="color-emoji">🔴</span>Impulsividade</button>
           <button class="color-btn blue" data-cor="blue"><span class="color-emoji">🔵</span>Pensamento Racional</button>
@@ -435,7 +502,7 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
     <!-- TAB: Ranking -->
     <div class="tab-content" id="tab-ranking">
       <div class="ranking-card">
-        <p class="ranking-title">👥 JOGADORES DA SALA</p>
+        <p class="ranking-title">👥 CLASSIFICAÇÃO DA SALA</p>
         <ul class="ranking-list" id="roomPlayersList"></ul>
       </div>
     </div>
@@ -457,12 +524,12 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
         <p class="end-title">🎉 PARTIDA ENCERRADA!</p>
         <p class="end-subtitle" id="endSubtitle">Resultado final</p>
         <div id="winnerBadge" class="winner-badge hidden">🏆 VOCÊ VENCEU!</div>
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-value" id="endScore">0</div><div class="stat-label">Seus Pontos</div></div>
-          <div class="stat-card"><div class="stat-value blue" id="endRank">-</div><div class="stat-label">Posição</div></div>
-          <div class="stat-card"><div class="stat-value purple" id="endCorrect">0</div><div class="stat-label">Acertos</div></div>
-          <div class="stat-card"><div class="stat-value yellow" id="endTotal">0</div><div class="stat-label">Perguntas</div></div>
+        
+        <div class="final-ranking">
+          <p class="final-ranking-title">📊 CLASSIFICAÇÃO FINAL</p>
+          <ul class="ranking-list" id="finalRankingList"></ul>
         </div>
+
         <button class="btn btn-restart" id="btnNewMatch">🔄 NOVA PARTIDA</button>
       </div>
     </div>
@@ -476,12 +543,18 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
   </div>
 </div>
 
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-text">TCC Experience — Jogo Educativo de Terapia Cognitivo-Comportamental</div>
+  <div class="footer-creator">Criado por Luiz Mariano S Filho</div>
+</footer>
+
 <!-- Firebase + App Logic -->
 <script type="module">
 // ===== FIREBASE IMPORTS =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-import { getFirestore, collection, doc, setDoc, updateDoc, onSnapshot, serverTimestamp, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, updateDoc, onSnapshot, serverTimestamp, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ===== FIREBASE CONFIG =====
 const firebaseConfig = {
@@ -498,9 +571,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-// ===== QUESTION BANK (BALANCED A/B ~50%) =====
+// ===== QUESTION BANK =====
 const ALL_QUESTIONS = [
-  // 🔴 IMPULSIVIDADE (12x A, 8x B)
   {pergunta:"Responder imediatamente com raiva em uma discussão é:",opcaoA:"Impulsividade",opcaoB:"Controle emocional",correta:"A",explicacao:"Agir sem reflexão caracteriza resposta impulsiva.",categoria:"red"},
   {pergunta:"Agir sem considerar consequências futuras é:",opcaoA:"Impulsividade",opcaoB:"Planejamento",correta:"A",explicacao:"Falta de previsão caracteriza comportamento impulsivo.",categoria:"red"},
   {pergunta:"Explodir emocionalmente em uma discussão é:",opcaoA:"Impulsividade",opcaoB:"Consciência",correta:"A",explicacao:"Reação intensa sem controle indica impulsividade.",categoria:"red"},
@@ -521,8 +593,6 @@ const ALL_QUESTIONS = [
   {pergunta:"Evitar decisões quando está muito emocionado é:",opcaoA:"Estratégia inteligente",opcaoB:"Fuga do problema",correta:"A",explicacao:"Adiar decisões sob emoção intensa é autorregulação.",categoria:"red"},
   {pergunta:"Gritar em público por frustração é:",opcaoA:"Impulsividade emocional",opcaoB:"Expressão saudável",correta:"B",explicacao:"Expressar frustração pode ser catártico e saudável.",categoria:"red"},
   {pergunta:"Ter paciência antes de reagir demonstra:",opcaoA:"Controle cognitivo",opcaoB:"Fragilidade",correta:"A",explicacao:"Paciência é sinal de maturidade emocional.",categoria:"red"},
-
-  // 🔵 PENSAMENTO RACIONAL (10x A, 10x B)
   {pergunta:"\"Eu sempre estrago tudo\" é um exemplo de:",opcaoA:"Generalização",opcaoB:"Observação neutra",correta:"A",explicacao:"Uso de termos absolutos como 'sempre' indica distorção.",categoria:"blue"},
   {pergunta:"\"Se algo der errado, será um desastre total\" é:",opcaoA:"Catastrofização",opcaoB:"Planejamento",correta:"A",explicacao:"Exagerar consequências negativas caracteriza catastrofização.",categoria:"blue"},
   {pergunta:"Pensamentos automáticos são:",opcaoA:"Rápidos e involuntários",opcaoB:"Sempre conscientes",correta:"A",explicacao:"Eles surgem automaticamente sem esforço deliberado.",categoria:"blue"},
@@ -543,8 +613,6 @@ const ALL_QUESTIONS = [
   {pergunta:"Pensar \"isso é impossível\" sem tentar é:",opcaoA:"Distorção",opcaoB:"Prudência",correta:"B",explicacao:"Às vezes reconhecer limites é realista, não distorção.",categoria:"blue"},
   {pergunta:"Pensar \"eu nunca consigo nada\" é:",opcaoA:"Generalização",opcaoB:"Fato",correta:"A",explicacao:"Uso de absolutos indica distorção.",categoria:"blue"},
   {pergunta:"Pensamento flexível significa:",opcaoA:"Considerar alternativas",opcaoB:"Manter uma visão",correta:"A",explicacao:"Flexibilidade reduz distorções cognitivas.",categoria:"blue"},
-
-  // 🟡 EMOÇÃO (10x A, 10x B)
   {pergunta:"Sentir ansiedade antes de uma apresentação é:",opcaoA:"Resposta emocional normal",opcaoB:"Sinal de incapacidade",correta:"A",explicacao:"A ansiedade pode ser adaptativa.",categoria:"yellow"},
   {pergunta:"Evitar responder para não piorar a situação pode ser:",opcaoA:"Regulação emocional",opcaoB:"Fraqueza",correta:"A",explicacao:"Adiar resposta pode ser estratégia de controle.",categoria:"yellow"},
   {pergunta:"Sentir medo antes de uma prova pode ser:",opcaoA:"Emoção adaptativa",opcaoB:"Erro psicológico",correta:"A",explicacao:"O medo pode preparar o organismo para desafios.",categoria:"yellow"},
@@ -565,8 +633,6 @@ const ALL_QUESTIONS = [
   {pergunta:"Sentir tristeza após uma perda é:",opcaoA:"Emoção natural",opcaoB:"Sinal de fraqueza",correta:"A",explicacao:"A tristeza é uma resposta esperada.",categoria:"yellow"},
   {pergunta:"Suprimir emoções constantemente pode causar:",opcaoA:"Problemas de saúde mental",opcaoB:"Maior bem-estar",correta:"A",explicacao:"Emoções reprimidas podem gerar sintomas.",categoria:"yellow"},
   {pergunta:"Nomear uma emoção ajuda a:",opcaoA:"Reduzir sua intensidade",opcaoB:"Aumentar sua intensidade",correta:"A",explicacao:"Identificar emoções é o primeiro passo para regulá-las.",categoria:"yellow"},
-
-  // 🟢 CONSCIÊNCIA (10x A, 10x B)
   {pergunta:"Perceber que estou nervoso antes de agir é:",opcaoA:"Consciência emocional",opcaoB:"Impulsividade",correta:"A",explicacao:"Reconhecer o próprio estado interno é autoconsciência.",categoria:"green"},
   {pergunta:"Identificar um pensamento distorcido é:",opcaoA:"Consciência cognitiva",opcaoB:"Reação emocional",correta:"A",explicacao:"Perceber padrões de pensamento é metacognição.",categoria:"green"},
   {pergunta:"Perceber uma emoção antes de agir permite:",opcaoA:"Maior controle",opcaoB:"Reação automática",correta:"A",explicacao:"A consciência antecede a regulação.",categoria:"green"},
@@ -595,9 +661,10 @@ const state = {
   score: 0, combo: 0, maxCombo: 0,
   totalQuestions: 0, correctAnswers: 0, history: [],
   usedQuestions: [], currentQuestion: null, currentColor: null,
-  gameActive: false, finished: false,
+  gameActive: false, finished: false, left: false,
   matchStartTime: null, timerRemaining: 600,
-  roomUnsub: null, playerUnsub: null, timerInterval: null
+  roomUnsub: null, playerUnsub: null, timerInterval: null,
+  playerOrder: [], currentTurnIndex: 0, specialUsedThisRound: false
 };
 
 // ===== CATEGORY CONFIG =====
@@ -635,28 +702,46 @@ function switchTab(tabName) {
   if (tabName === 'history') updateHistory();
 }
 
+// ===== NOTIFICATIONS =====
+function showNotification(title, text) {
+  const container = document.getElementById('notificationsContainer');
+  const notif = document.createElement('div');
+  notif.className = 'notification';
+  notif.innerHTML = `
+    <div class="notification-header">🔔 ${title}</div>
+    <div class="notification-text">${text}</div>
+  `;
+  container.appendChild(notif);
+  setTimeout(() => notif.remove(), 5000);
+}
+
 // ===== FIREBASE: GLOBAL RANKING =====
 function initGlobalRanking() {
   const list = document.getElementById("global-ranking-list");
   const wrap = document.getElementById("global-ranking-wrap");
   
-  onSnapshot(collection(db, "tcc_players"), (snapshot) => {
+  const q = query(collection(db, "tcc_players"), orderBy("wins", "desc"), limit(3));
+  
+  onSnapshot(q, (snapshot) => {
     const players = [];
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       if (data.wins > 0) players.push({ id: docSnap.id, ...data });
     });
-    players.sort((a, b) => b.wins - a.wins || b.bestScore - a.bestScore);
-    const top10 = players.slice(0, 10);
-    if (top10.length === 0) { wrap.style.display = "none"; return; }
+    
+    if (players.length === 0) { wrap.style.display = "none"; return; }
     wrap.style.display = "block";
-    list.innerHTML = top10.map((p, i) => {
+    
+    list.innerHTML = players.map((p, i) => {
       const t = getTitleByWins(p.wins);
-      const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i+1}º`;
-      return `<li><span style="width:28px;text-align:center;font-weight:700">${medal}</span>
-        <span style="flex:1;font-weight:600">${p.name}</span>
-        <span style="color:var(--neon-green);font-weight:700;font-family:'Orbitron'">${p.bestScore}</span>
-        <span class="gr-title ${t.cls}">${t.text}</span></li>`;
+      const posClass = i === 0 ? 'gold' : i === 1 ? 'silver' : 'bronze';
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉';
+      return `<li class="global-ranking-item top${i+1}">
+        <span class="gr-pos ${posClass}">${medal}</span>
+        <span class="gr-name">${p.name}</span>
+        <span class="gr-wins">${p.wins} vitórias</span>
+        <span class="gr-title ${t.cls}">${t.text}</span>
+      </li>`;
     }).join("");
   });
 }
@@ -668,34 +753,59 @@ function getTitleByWins(wins) {
   return { text: "🌱 Iniciante", cls: "iniciante" };
 }
 
-// ===== FIREBASE: ROOM SYSTEM =====
-async function joinOrCreateRoom(nameInput, roomCodeInput) {
-  state.playerName = nameInput.trim();
-  if (!state.playerName) {
-    const inp = document.getElementById('playerName');
+// ===== LOGIN & WELCOME =====
+function login() {
+  const name = document.getElementById('loginName').value.trim();
+  if (!name) {
+    const inp = document.getElementById('loginName');
     inp.style.borderColor = 'var(--neon-red)';
     inp.style.animation = 'shake .4s ease';
     setTimeout(() => { inp.style.animation = ''; }, 400);
     return;
   }
-  
-  const roomCode = roomCodeInput.trim().toUpperCase() || generateRoomCode();
+  state.playerName = name;
+  showScreen('screen-welcome');
+}
+
+function createRoom() {
+  const roomCode = generateRoomCode();
+  joinRoom(roomCode, true);
+}
+
+function joinRoomInput() {
+  const code = prompt('Digite o código da sala:');
+  if (code) joinRoom(code.toUpperCase(), false);
+}
+
+async function joinRoom(roomCode, isHost) {
   state.roomId = roomCode;
+  state.isHost = isHost;
   state.playerId = `${roomCode}_${Date.now()}_${Math.random().toString(36).substr(2,5)}`;
   
   const roomRef = doc(db, "rooms", roomCode);
   const playerRef = doc(roomRef, "players", state.playerId);
   
+  // Check if room exists and is active
+  const roomSnap = await getDocs(query(collection(db, "rooms"), orderBy("createdAt", "desc"), limit(1)));
+  const existingRoom = roomSnap.docs.find(d => d.id === roomCode)?.data();
+  
+  if (existingRoom && existingRoom.status === 'playing') {
+    alert('❌ Esta sala já está em jogo! Crie ou entre em outra sala.');
+    return;
+  }
+  
   await setDoc(roomRef, {
     code: roomCode, status: 'lobby', createdAt: serverTimestamp(),
-    startTime: null, endTime: null, hostId: null, maxPlayers: 4
+    startTime: null, endTime: null, hostId: isHost ? state.playerId : null,
+    maxPlayers: 10, playerOrder: []
   }, { merge: true });
   
   await setDoc(playerRef, {
     name: state.playerName, score: 0, finished: false, left: false,
-    joinedAt: serverTimestamp(), isHost: false
+    joinedAt: serverTimestamp(), isHost: isHost, order: 0
   });
   
+  // Update host if first
   const snap = await getDocs(collection(roomRef, "players"));
   if (snap.size === 1) {
     await updateDoc(roomRef, { hostId: state.playerId });
@@ -709,7 +819,7 @@ async function joinOrCreateRoom(nameInput, roomCodeInput) {
     const roomData = roomSnap.data();
     if (!roomData) return;
     
-    if (roomData.startTime && roomData.status === 'playing' && !state.gameActive) {
+    if (roomData.status === 'playing' && !state.gameActive) {
       startGameInRoom(roomData);
     }
     if (roomData.status === 'ended') {
@@ -717,19 +827,6 @@ async function joinOrCreateRoom(nameInput, roomCodeInput) {
     }
     if (roomData.status === 'lobby') {
       updateLobbyPlayers(roomRef);
-    }
-  });
-  
-  // Listen to own player
-  if (state.playerUnsub) state.playerUnsub();
-  state.playerUnsub = onSnapshot(playerRef, (playerSnap) => {
-    const pData = playerSnap.data();
-    if (pData?.finished && !state.finished) {
-      state.finished = true;
-      const btn = document.getElementById('btnFinish');
-      btn.textContent = '✅ Finalizado';
-      btn.disabled = true;
-      checkAllFinished(roomRef);
     }
   });
   
@@ -752,9 +849,8 @@ function updateLobbyPlayers(roomRef) {
     }
     
     list.innerHTML = players.map(p => `
-      <li><span class="player-status ${p.finished ? 'finished' : 'waiting'}"></span>
-        <span class="player-name">${p.name} ${p.isHost ? '👑' : ''}</span>
-        <span class="player-score">${p.score} pts</span></li>`).join('');
+      <li><span class="player-status waiting"></span>
+        <span class="player-name">${p.name} ${p.isHost ? '👑' : ''}</span></li>`).join('');
     
     const btn = document.getElementById('btnStartAsHost');
     if (state.isHost && players.length >= 2) btn.classList.remove('hidden');
@@ -764,16 +860,40 @@ function updateLobbyPlayers(roomRef) {
 
 async function startGameAsHost() {
   const roomRef = doc(db, "rooms", state.roomId);
+  const playersSnap = await getDocs(collection(roomRef, "players"));
+  const players = [];
+  playersSnap.forEach(p => players.push(p.id));
+  
+  // Shuffle player order
+  const shuffled = players.sort(() => Math.random() - 0.5);
+  const orderData = {};
+  shuffled.forEach((pid, idx) => {
+    orderData[`${pid}/order`] = idx + 1;
+  });
+  
   const now = Date.now();
-  await updateDoc(roomRef, { status: 'playing', startTime: serverTimestamp(), endTime: new Date(now + 600000) });
+  await updateDoc(roomRef, {
+    status: 'playing',
+    startTime: serverTimestamp(),
+    endTime: new Date(now + 600000),
+    playerOrder: shuffled,
+    currentTurnIndex: 0,
+    ...orderData
+  });
+  
   state.gameActive = true;
   state.matchStartTime = now;
   state.timerRemaining = 600;
+  state.playerOrder = shuffled;
+  state.currentTurnIndex = 0;
   
   showScreen('screen-game');
   document.getElementById('timerDisplay').classList.remove('hidden');
   document.getElementById('actionButtons').classList.remove('hidden');
-  updateHUD(); resetPhase();
+  startTimer();
+  updateHUD();
+  updateTurnIndicator();
+  resetPhase();
 }
 
 function startGameInRoom(roomData) {
@@ -781,17 +901,25 @@ function startGameInRoom(roomData) {
   state.gameActive = true;
   state.matchStartTime = roomData.startTime.toDate().getTime();
   state.timerRemaining = 600;
+  state.playerOrder = roomData.playerOrder || [];
+  state.currentTurnIndex = roomData.currentTurnIndex || 0;
   
   showScreen('screen-game');
   document.getElementById('timerDisplay').classList.remove('hidden');
   document.getElementById('actionButtons').classList.remove('hidden');
-  updateHUD(); resetPhase();
+  startTimer();
+  updateHUD();
+  updateTurnIndicator();
+  resetPhase();
 }
 
 function startTimer() {
   if (state.timerInterval) clearInterval(state.timerInterval);
   state.timerInterval = setInterval(() => {
-    if (!state.gameActive || state.timerRemaining <= 0) { clearInterval(state.timerInterval); return; }
+    if (!state.gameActive || state.timerRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      return;
+    }
     state.timerRemaining--;
     const el = document.getElementById('timerDisplay');
     el.textContent = formatTime(state.timerRemaining);
@@ -800,6 +928,36 @@ function startTimer() {
     else el.classList.remove('warning');
     if (state.timerRemaining <= 0) endMatch(doc(db, "rooms", state.roomId));
   }, 1000);
+}
+
+function updateTurnIndicator() {
+  const indicator = document.getElementById('turnIndicator');
+  const text = document.getElementById('turnText');
+  const myIndex = state.playerOrder.indexOf(state.playerId);
+  const currentPlayerId = state.playerOrder[state.currentTurnIndex];
+  
+  if (currentPlayerId === state.playerId) {
+    indicator.classList.remove('hidden');
+    indicator.classList.add('my-turn');
+    text.classList.add('my-turn');
+    text.textContent = '🎮 SUA VEZ DE JOGAR!';
+    enableButtons(true);
+  } else {
+    const currentPlayerName = state.playerOrder.map(id => {
+      // Get name from room players
+      return id;
+    }).join(', ');
+    indicator.classList.remove('hidden');
+    indicator.classList.remove('my-turn');
+    text.classList.remove('my-turn');
+    text.textContent = `⏳ Vez do jogador ${state.currentTurnIndex + 1}`;
+    enableButtons(false);
+  }
+}
+
+function enableButtons(enable) {
+  document.querySelectorAll('.color-btn').forEach(btn => btn.disabled = !enable);
+  document.querySelectorAll('.special-btn').forEach(btn => btn.disabled = !enable || state.specialUsedThisRound);
 }
 
 // ===== GAME LOGIC =====
@@ -859,94 +1017,96 @@ function updateHistory() {
 }
 
 // ===== SPECIAL HOUSES =====
-function activateSpecialButtons(active = true) {
-  document.getElementById('btnInsight').disabled = !active;
-  document.getElementById('btnImpulse').disabled = !active;
-  document.getElementById('btnReevaluate').disabled = !active;
-}
-
-async function useInsight() {
-  if (!state.gameActive || state.finished) return;
-  state.score += 20;
-  showFloatingScore('+20', true);
-  updateHUD(); updateLevel();
-  await updatePlayerScore();
+async function useSpecialHouse(type) {
+  if (!state.gameActive || state.finished || state.specialUsedThisRound) return;
+  state.specialUsedThisRound = true;
   
-  const fb = document.getElementById('feedback');
-  fb.classList.remove('hidden', 'correct', 'wrong');
-  fb.classList.add('correct', 'feedback-special');
-  document.getElementById('fbIcon').textContent = '💡';
-  document.getElementById('fbTitle').textContent = 'Insight!';
-  document.getElementById('fbText').textContent = 'Você teve um momento de clareza cognitiva! +20 pontos.';
-  document.getElementById('fbPoints').textContent = '+20 pontos (bônus especial)';
-  document.getElementById('fbPoints').className = 'feedback-points';
-  document.getElementById('comboLossMsg').classList.add('hidden');
-  document.getElementById('btnNext').classList.remove('hidden');
-  activateSpecialButtons(false);
-  state.history.unshift({ question: '💡 Casa Especial: INSIGHT', correct: true, points: 20, category: 'Especial' });
-}
-
-async function useImpulse() {
-  if (!state.gameActive || state.finished) return;
-  if (state.combo > 0) {
-    showComboBreak();
-    document.getElementById('comboLossMsg').textContent = '⚡ IMPULSO! Combo perdido + volte 1 casa no tabuleiro.';
-    document.getElementById('comboLossMsg').classList.remove('hidden');
+  // Notify others
+  const roomRef = doc(db, "rooms", state.roomId);
+  await updateDoc(roomRef, {
+    [`lastSpecial_${state.playerId}`]: { type, playerName: state.playerName, timestamp: serverTimestamp() }
+  });
+  
+  if (type === 'insight') {
+    state.score += 20;
+    showFloatingScore('+20', true);
+    updateHUD(); updateLevel();
+    await updatePlayerScore();
+    
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('hidden', 'correct', 'wrong');
+    fb.classList.add('correct', 'feedback-special');
+    document.getElementById('fbIcon').textContent = '💡';
+    document.getElementById('fbTitle').textContent = 'Insight!';
+    document.getElementById('fbText').textContent = 'Você teve um momento de clareza cognitiva! +20 pontos.';
+    document.getElementById('fbPoints').textContent = '+20 pontos (bônus especial)';
+    document.getElementById('fbPoints').className = 'feedback-points';
+    document.getElementById('comboLossMsg').classList.add('hidden');
+    document.getElementById('btnNext').classList.remove('hidden');
+    
+    state.history.unshift({ question: '💡 Casa Especial: INSIGHT', correct: true, points: 20, category: 'Especial' });
+  } else if (type === 'impulse') {
+    if (state.combo > 0) {
+      showComboBreak();
+      document.getElementById('comboLossMsg').textContent = '⚡ IMPULSO! Combo perdido + volte 1 casa no tabuleiro.';
+      document.getElementById('comboLossMsg').classList.remove('hidden');
+    }
+    state.combo = 0;
+    showFloatingScore('0', false);
+    
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('hidden', 'correct', 'wrong');
+    fb.classList.add('wrong');
+    document.getElementById('fbIcon').textContent = '⚡';
+    document.getElementById('fbTitle').textContent = 'Impulso!';
+    document.getElementById('fbText').textContent = 'Ação impulsiva! Você perdeu o combo e deve voltar 1 casa no tabuleiro.';
+    document.getElementById('fbPoints').textContent = '+0 pontos — Combo perdido';
+    document.getElementById('fbPoints').className = 'feedback-points zero';
+    document.getElementById('btnNext').classList.remove('hidden');
+    await updatePlayerScore();
+    state.history.unshift({ question: '⚡ Casa Especial: IMPULSO', correct: false, points: 0, category: 'Especial' });
+  } else if (type === 'reevaluate') {
+    const color = state.currentColor || ['red','blue','yellow','green'][Math.floor(Math.random()*4)];
+    const available = ALL_QUESTIONS.filter(q => q.categoria === color && !state.usedQuestions.includes(q));
+    const pool = available.length > 0 ? available : ALL_QUESTIONS.filter(q => !state.usedQuestions.includes(q));
+    
+    if (pool.length === 0) { alert('🔄 Nenhuma pergunta disponível!'); state.specialUsedThisRound = false; return; }
+    
+    const q = pool[Math.floor(Math.random() * pool.length)];
+    state.usedQuestions.push(q);
+    
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('hidden', 'correct', 'wrong');
+    fb.classList.add('correct', 'feedback-special');
+    document.getElementById('fbIcon').textContent = '🔄';
+    document.getElementById('fbTitle').textContent = 'Reavaliação!';
+    document.getElementById('fbText').textContent = 'Você escolheu refletir novamente. Nova pergunta na mesma rodada!';
+    document.getElementById('fbPoints').textContent = 'Responda para continuar';
+    document.getElementById('fbPoints').className = 'feedback-points';
+    document.getElementById('comboLossMsg').classList.add('hidden');
+    
+    setTimeout(() => { showQuestion(q, color); }, 1500);
+    state.history.unshift({ question: '🔄 Casa Especial: REAVALIAÇÃO', correct: null, points: 0, category: 'Especial' });
   }
-  state.combo = 0;
-  showFloatingScore('0', false);
   
-  const fb = document.getElementById('feedback');
-  fb.classList.remove('hidden', 'correct', 'wrong');
-  fb.classList.add('wrong');
-  document.getElementById('fbIcon').textContent = '⚡';
-  document.getElementById('fbTitle').textContent = 'Impulso!';
-  document.getElementById('fbText').textContent = 'Ação impulsiva! Você perdeu o combo e deve voltar 1 casa no tabuleiro.';
-  document.getElementById('fbPoints').textContent = '+0 pontos — Combo perdido';
-  document.getElementById('fbPoints').className = 'feedback-points zero';
-  document.getElementById('btnNext').classList.remove('hidden');
-  activateSpecialButtons(false);
-  await updatePlayerScore();
-  state.history.unshift({ question: '⚡ Casa Especial: IMPULSO', correct: false, points: 0, category: 'Especial' });
-}
-
-async function useReevaluate() {
-  if (!state.gameActive || state.finished) return;
-  const color = state.currentColor || ['red','blue','yellow','green'][Math.floor(Math.random()*4)];
-  const available = ALL_QUESTIONS.filter(q => q.categoria === color && !state.usedQuestions.includes(q));
-  const pool = available.length > 0 ? available : ALL_QUESTIONS.filter(q => !state.usedQuestions.includes(q));
-  
-  if (pool.length === 0) { alert('🔄 Nenhuma pergunta disponível!'); return; }
-  
-  const q = pool[Math.floor(Math.random() * pool.length)];
-  state.usedQuestions.push(q);
-  
-  const fb = document.getElementById('feedback');
-  fb.classList.remove('hidden', 'correct', 'wrong');
-  fb.classList.add('correct', 'feedback-special');
-  document.getElementById('fbIcon').textContent = '🔄';
-  document.getElementById('fbTitle').textContent = 'Reavaliação!';
-  document.getElementById('fbText').textContent = 'Você escolheu refletir novamente. Nova pergunta na mesma rodada!';
-  document.getElementById('fbPoints').textContent = 'Responda para continuar';
-  document.getElementById('fbPoints').className = 'feedback-points';
-  document.getElementById('comboLossMsg').classList.add('hidden');
-  
-  setTimeout(() => { showQuestion(q, color); activateSpecialButtons(false); }, 1500);
-  state.history.unshift({ question: '🔄 Casa Especial: REAVALIAÇÃO', correct: null, points: 0, category: 'Especial' });
+  // Disable special buttons
+  document.querySelectorAll('.special-btn').forEach(btn => btn.disabled = true);
 }
 
 // ===== GAME FLOW =====
 function resetPhase() {
+  state.specialUsedThisRound = false;
   document.getElementById('phase-color').classList.remove('hidden');
   document.getElementById('phase-question').classList.add('hidden');
   document.getElementById('feedback').classList.add('hidden');
   document.getElementById('btnNext').classList.add('hidden');
   document.getElementById('comboLossMsg').classList.add('hidden');
-  activateSpecialButtons(true);
+  enableButtons(true);
+  document.querySelectorAll('.special-btn').forEach(btn => btn.disabled = false);
 }
 
 function selectColor(color) {
-  if (!state.gameActive) return;
+  if (!state.gameActive || !isMyTurn()) return;
   state.currentColor = color;
   const available = ALL_QUESTIONS.filter(q => q.categoria === color && !state.usedQuestions.includes(q));
   const pool = available.length > 0 ? available : ALL_QUESTIONS.filter(q => !state.usedQuestions.includes(q));
@@ -954,6 +1114,10 @@ function selectColor(color) {
   const q = pool[Math.floor(Math.random() * pool.length)];
   state.usedQuestions.push(q);
   showQuestion(q, color);
+}
+
+function isMyTurn() {
+  return state.playerOrder[state.currentTurnIndex] === state.playerId;
 }
 
 function showQuestion(q, color) {
@@ -974,10 +1138,11 @@ function showQuestion(q, color) {
   document.querySelectorAll('.option-btn').forEach(btn => btn.className = 'option-btn');
   document.getElementById('feedback').classList.add('hidden');
   document.getElementById('btnNext').classList.add('hidden');
+  enableButtons(false);
 }
 
 function answer(choice) {
-  if (!state.gameActive || state.finished) return;
+  if (!state.gameActive || state.finished || !isMyTurn()) return;
   const q = state.currentQuestion;
   const isCorrect = choice === q.correta;
   
@@ -1035,8 +1200,20 @@ async function updatePlayerScore() {
   await updateDoc(playerRef, { score: state.score });
 }
 
-function nextRound() {
+async function nextRound() {
   if (!state.gameActive || state.finished) return;
+  
+  // Move to next player
+  const roomRef = doc(db, "rooms", state.roomId);
+  const nextIndex = (state.currentTurnIndex + 1) % state.playerOrder.length;
+  
+  await updateDoc(roomRef, {
+    currentTurnIndex: nextIndex,
+    [`lastSpecial_${state.playerId}`]: null
+  });
+  
+  state.currentTurnIndex = nextIndex;
+  updateTurnIndicator();
   resetPhase();
 }
 
@@ -1044,28 +1221,49 @@ async function finishMatch() {
   if (state.finished) return;
   state.finished = true;
   
-  const playerRef = doc(db, `rooms/${state.roomId}/players/${state.playerId}`);
+  const roomRef = doc(db, "rooms", state.roomId);
+  const playerRef = doc(roomRef, "players", state.playerId);
+  
   await updateDoc(playerRef, { finished: true, finalScore: state.score });
+  
+  // Notify others
+  showNotification('Finalização', `${state.playerName} finalizou o jogo!`);
   
   document.getElementById('btnFinish').textContent = '✅ Finalizado';
   document.getElementById('btnFinish').disabled = true;
-  checkAllFinished(doc(db, "rooms", state.roomId));
+  
+  // Check if all finished
+  checkAllFinished(roomRef);
 }
 
 async function checkAllFinished(roomRef) {
   const snap = await getDocs(collection(roomRef, "players"));
-  const allFinished = snap.docs.every(d => d.data().finished);
-  if (allFinished) await updateDoc(roomRef, { status: 'ended', endTime: serverTimestamp() });
+  const allFinished = snap.docs.every(d => {
+    const data = d.data();
+    return data.finished || data.left;
+  });
+  
+  if (allFinished) {
+    await updateDoc(roomRef, { status: 'ended', endTime: serverTimestamp() });
+  }
 }
 
 async function leaveGame() {
-  if (confirm('Tem certeza que deseja sair da partida?')) {
-    try { await updateDoc(doc(db, `rooms/${state.roomId}/players/${state.playerId}`), { left: true }); } catch(e) {}
-    if (state.roomUnsub) state.roomUnsub();
-    if (state.playerUnsub) state.playerUnsub();
-    if (state.timerInterval) clearInterval(state.timerInterval);
-    location.reload();
+  if (confirm('Tem certeza que deseja sair da partida? Você não poderá voltar.')) {
+    try {
+      const playerRef = doc(db, `rooms/${state.roomId}/players/${state.playerId}`);
+      await updateDoc(playerRef, { left: true });
+      state.left = true;
+    } catch(e) {}
+    cleanup();
+    showScreen('screen-login');
   }
+}
+
+function cleanup() {
+  if (state.roomUnsub) state.roomUnsub();
+  if (state.playerUnsub) state.playerUnsub();
+  if (state.timerInterval) clearInterval(state.timerInterval);
 }
 
 async function endMatch(roomRef) {
@@ -1075,7 +1273,8 @@ async function endMatch(roomRef) {
 
 async function showMatchResults(roomRef) {
   state.gameActive = false;
-  if (state.timerInterval) clearInterval(state.timerInterval);
+  cleanup();
+  
   document.getElementById('phase-color').classList.add('hidden');
   document.getElementById('phase-question').classList.add('hidden');
   document.getElementById('feedback').classList.add('hidden');
@@ -1083,6 +1282,7 @@ async function showMatchResults(roomRef) {
   document.getElementById('endSection').classList.remove('hidden');
   document.getElementById('actionButtons').classList.add('hidden');
   document.getElementById('timerDisplay').classList.add('hidden');
+  document.getElementById('turnIndicator').classList.add('hidden');
   
   const snap = await getDocs(query(collection(roomRef, "players"), orderBy("score", "desc")));
   const players = [];
@@ -1095,13 +1295,25 @@ async function showMatchResults(roomRef) {
   const myPlayer = players.find(p => p.id === state.playerId);
   const winner = players[0];
   
+  // Show final ranking
+  const finalList = document.getElementById('finalRankingList');
+  finalList.innerHTML = players.map((p, i) => {
+    const isCurrent = p.id === state.playerId;
+    const posClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    const medals = ['🥇', '🥈', ''];
+    return `<li class="ranking-item ${isCurrent ? 'current' : ''}">
+      <span class="rk-pos ${posClass}">${i < 3 ? medals[i] : (i + 1)}</span>
+      <span class="rk-name">${p.name} ${isCurrent ? '<span class="rk-current-tag">VOCÊ</span>' : ''}</span>
+      <span class="rk-score">${p.score} pts</span></li>`;
+  }).join('');
+  
   document.getElementById('endScore').textContent = state.score;
   document.getElementById('endRank').textContent = myPlayer?.rank || '-';
   document.getElementById('endCorrect').textContent = state.correctAnswers;
   document.getElementById('endTotal').textContent = state.totalQuestions;
   
   const badge = document.getElementById('winnerBadge');
-  if (myPlayer?.id === winner?.id) {
+  if (myPlayer?.id === winner?.id && !state.left) {
     badge.classList.remove('hidden');
     saveMatchWin(state.playerName, state.score);
     spawnConfetti();
@@ -1180,14 +1392,14 @@ function createParticles() {
 
 // ===== EVENT LISTENERS =====
 function initEventListeners() {
-  document.getElementById('btnJoin').addEventListener('click', () => {
-    joinOrCreateRoom(document.getElementById('playerName').value, document.getElementById('roomCode').value);
-  });
-  document.getElementById('playerName').addEventListener('keydown', e => {
-    if (e.key === 'Enter') joinOrCreateRoom(document.getElementById('playerName').value, document.getElementById('roomCode').value);
-  });
+  document.getElementById('btnLogin').addEventListener('click', login);
+  document.getElementById('loginName').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+  
+  document.getElementById('btnCreateRoom').addEventListener('click', createRoom);
+  document.getElementById('btnJoinRoom').addEventListener('click', joinRoomInput);
+  
   document.getElementById('btnStartAsHost').addEventListener('click', startGameAsHost);
-  document.getElementById('btnLeaveLobby').addEventListener('click', () => location.reload());
+  document.getElementById('btnLeaveLobby').addEventListener('click', () => { cleanup(); showScreen('screen-login'); });
   
   document.querySelectorAll('.color-btn').forEach(btn => {
     btn.addEventListener('click', () => selectColor(btn.dataset.cor));
@@ -1205,10 +1417,10 @@ function initEventListeners() {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
   
-  // Casas Especiais
-  document.getElementById('btnInsight').addEventListener('click', useInsight);
-  document.getElementById('btnImpulse').addEventListener('click', useImpulse);
-  document.getElementById('btnReevaluate').addEventListener('click', useReevaluate);
+  // Special Houses
+  document.getElementById('btnInsight').addEventListener('click', () => useSpecialHouse('insight'));
+  document.getElementById('btnImpulse').addEventListener('click', () => useSpecialHouse('impulse'));
+  document.getElementById('btnReevaluate').addEventListener('click', () => useSpecialHouse('reevaluate'));
 }
 
 // ===== INIT =====
