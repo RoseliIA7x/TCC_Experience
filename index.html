@@ -661,7 +661,6 @@ const ALL_QUESTIONS = [
 
 // ===== GAME STATE =====
 const state = {
-  let currentUser = null; // Armazena o usuário logado
   playerName: '', playerId: '', roomId: '', isHost: false,
   score: 0, combo: 0, maxCombo: 0,
   totalQuestions: 0, correctAnswers: 0, history: [],
@@ -672,6 +671,8 @@ const state = {
   playerOrder: [], currentTurnIndex: 0, specialUsedThisRound: false
 };
 
+// Variável global para usuário logado (FORA do state)
+let currentUser = null;
 // ===== CATEGORY CONFIG =====
 const CATEGORY_MAP = { red: 'Impulsividade', blue: 'Pensamento Racional', yellow: 'Emoção', green: 'Consciência' };
 const CATEGORY_CLASS = { red: 'cat-red', blue: 'cat-blue', yellow: 'cat-yellow', green: 'cat-green' };
@@ -787,13 +788,17 @@ function showHomeScreen() {
   showScreen('screen-home');
   initGlobalRankingHome();
 }
-
+  
 function logout() {
-  currentUser = null;
-  localStorage.removeItem('tcc_currentUser');
-  showScreen('screen-login');
+  if(confirm("Deseja sair e voltar para o login?")) {
+    currentUser = null;
+    localStorage.removeItem('tcc_currentUser');
+    cleanup();
+    showScreen('screen-login');
+    document.getElementById('loginName').value = '';
+  }
 }
-
+  
 function createRoom() {
   if (!currentUser) {
     showScreen('screen-login');
@@ -1544,18 +1549,6 @@ function initEventListeners() {
 }
 
 // ===== INIT =====
-// Função de Logout corrigida (Limpa tudo e volta pro login)
-function logout() {
-  if(confirm("Deseja sair e voltar para o login?")) {
-    currentUser = null;
-    localStorage.removeItem('tcc_currentUser'); // Remove a memória do navegador
-    cleanup();
-    showScreen('screen-login'); // Volta para a tela de digitar nome
-    document.getElementById('loginName').value = ''; // Limpa o campo
-  }
-}
-
-// Função de Inicialização
 function init() {
   createParticles();
   
@@ -1563,18 +1556,26 @@ function init() {
   const savedUser = localStorage.getItem('tcc_currentUser');
   
   if (savedUser) {
-    // Se já tem, vai direto pra home
     currentUser = savedUser;
-    console.log("Usuário logado automaticamente:", currentUser);
+    console.log("✅ Usuário logado automaticamente:", currentUser);
     initGlobalRankingHome();
     showScreen('screen-home');
   } else {
-    // Se não tem, mostra o login
-    console.log("Nenhum usuário logado, mostrando login.");
+    console.log("ℹ️ Nenhum usuário logado, mostrando login.");
     showScreen('screen-login');
   }
   
   // Inicia os botões
   initEventListeners();
-  console.log("🎮 Sistema iniciado!");
+  console.log("🎮 Sistema iniciado com sucesso!");
 }
+
+// Inicia o app
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
