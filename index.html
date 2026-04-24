@@ -864,11 +864,16 @@ async function startGameAsHost() {
   const players = [];
   playersSnap.forEach(p => players.push(p.id));
   
-  // Shuffle player order
+  // Embaralha ordem dos jogadores
   const shuffled = players.sort(() => Math.random() - 0.5);
-  const orderData = {};
-  shuffled.forEach((pid, idx) => {
-    orderData[`${pid}/order`] = idx + 1;
+  
+  const now = Date.now();
+  await updateDoc(roomRef, {
+    status: 'playing',
+    starttime: serverTimestamp(),
+    endTime: new Date(now + 600000),
+    playerOrder: shuffled,
+    currentTurnIndex: 0
   });
   
   const now = Date.now();
