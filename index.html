@@ -720,16 +720,31 @@ function initGlobalRanking() {
   const list = document.getElementById("global-ranking-list");
   const wrap = document.getElementById("global-ranking-wrap");
   
+  if (!list || !wrap) {
+    console.error("Elementos do ranking não encontrados!");
+    return;
+  }
+  
+  console.log("Iniciando ranking global...");
+  
   const q = query(collection(db, "tcc_players"), orderBy("wins", "desc"), limit(3));
   
   onSnapshot(q, (snapshot) => {
+    console.log("Snapshot do ranking:", snapshot.size, "documentos");
+    
     const players = [];
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
+      console.log("Player:", data.name, "wins:", data.wins);
       if (data.wins > 0) players.push({ id: docSnap.id, ...data });
     });
     
-    if (players.length === 0) { wrap.style.display = "none"; return; }
+    if (players.length === 0) { 
+      console.log("Nenhum player com vitórias");
+      wrap.style.display = "none"; 
+      return; 
+    }
+    
     wrap.style.display = "block";
     
     list.innerHTML = players.map((p, i) => {
@@ -743,6 +758,11 @@ function initGlobalRanking() {
         <span class="gr-title ${t.cls}">${t.text}</span>
       </li>`;
     }).join("");
+    
+    console.log("Ranking atualizado:", players.length, "players");
+  }, (error) => {
+    console.error("Erro no ranking:", error);
+    wrap.style.display = "none";
   });
 }
 
@@ -864,16 +884,17 @@ async function startGameAsHost() {
   const players = [];
   playersSnap.forEach(p => players.push(p.id));
   
-  // Embaralha ordem dos jogadores
+  // Shuffle player order
   const shuffled = players.sort(() => Math.random() - 0.5);
   
   const now = Date.now();
   await updateDoc(roomRef, {
     status: 'playing',
-    starttime: serverTimestamp(),
+    startTime: serverTimestamp(),
     endTime: new Date(now + 600000),
     playerOrder: shuffled,
-    currentTurnIndex: 0
+    currentTurnIndex: 0,
+    lastTurnChange: serverTimestamp()
   });
   
   state.gameActive = true;
@@ -881,6 +902,10 @@ async function startGameAsHost() {
   state.timerRemaining = 600;
   state.playerOrder = shuffled;
   state.currentTurnIndex = 0;
+  
+  console.log("Jogo iniciado!");
+  console.log("Ordem dos jogadores:", shuffled);
+  console.log("Primeiro jogador:", shuffled[0]);
   
   showScreen('screen-game');
   document.getElementById('timerDisplay').classList.remove('hidden');
@@ -893,11 +918,35 @@ async function startGameAsHost() {
 
 function startGameInRoom(roomData) {
   if (state.gameActive) return;
+  
+  console.log("Iniciando jogo para:", state.playerName);
+  console.log("Player order:", roomData.playerOrder);
+  console.log("Current turn:", roomData.currentTurnIndex);
+  
   state.gameActive = true;
-  state.matchStartTime = roomData.startTime.toDate().getTime();
+  state.matchStartTime = roomData.startTime ? roomData.startTime.toDate().getTime() : Date.now();
   state.timerRemaining = 600;
   state.playerOrder = roomData.playerOrder || [];
   state.currentTurnIndex = roomData.currentTurnIndex || 0;
+  
+  // Listener para mudanças de turno
+  const roomRef = doc(db, "rooms", state.roomId);
+  onSnapshot(roomRef, (roomSnap) => {
+    const roomData = roomSnap.data();
+    if (!roomData || !state.gameActive) return;
+    
+    // Atualiza índice do turno quando mudar
+    if (roomData.currentTurnIndex !== undefined && roomData.currentTurnIndex !== state.currentTurnIndex) {
+      state.currentTurnIndex = roomData.currentTurnIndex;
+      updateTurnIndicator();
+      resetPhase();
+    }
+    
+    // Verifica se jogo terminou
+    if (roomData.status === 'ended') {
+      showMatchResults(roomRef);
+    }
+  });
   
   showScreen('screen-game');
   document.getElementById('timerDisplay').classList.remove('hidden');
@@ -910,42 +959,62 @@ function startGameInRoom(roomData) {
 
 function startTimer() {
   if (state.timerInterval) clearInterval(state.timerInterval);
+  
+  // Timer sincronizado baseado no startTime do servidor
   state.timerInterval = setInterval(() => {
-    if (!state.gameActive || state.timerRemaining <= 0) {
+    if (!state.gameActive) {
       clearInterval(state.timerInterval);
       return;
     }
-    state.timerRemaining--;
+    
+    const now = Date.now();
+    const elapsed = Math.floor((now - state.matchStartTime) / 1000);
+    state.timerRemaining = Math.max(0, 600 - elapsed);
+    
     const el = document.getElementById('timerDisplay');
     el.textContent = formatTime(state.timerRemaining);
     document.getElementById('timerFill').style.width = (state.timerRemaining / 600 * 100) + '%';
+    
     if (state.timerRemaining <= 60) el.classList.add('warning');
     else el.classList.remove('warning');
-    if (state.timerRemaining <= 0) endMatch(doc(db, "rooms", state.roomId));
+    
+    if (state.timerRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      endMatch(doc(db, "rooms", state.roomId));
+    }
   }, 1000);
 }
 
 function updateTurnIndicator() {
   const indicator = document.getElementById('turnIndicator');
   const text = document.getElementById('turnText');
-  const myIndex = state.playerOrder.indexOf(state.playerId);
-  const currentPlayerId = state.playerOrder[state.currentTurnIndex];
   
-  if (currentPlayerId === state.playerId) {
-    indicator.classList.remove('hidden');
+  if (!state.playerOrder || state.playerOrder.length === 0) {
+    console.log("Player order vazio!");
+    return;
+  }
+  
+  const currentPlayerId = state.playerOrder[state.currentTurnIndex];
+  const isMyTurn = currentPlayerId === state.playerId;
+  
+  console.log("Turno atual:", state.currentTurnIndex);
+  console.log("Jogador da vez:", currentPlayerId);
+  console.log("Meu ID:", state.playerId);
+  console.log("É minha vez?", isMyTurn);
+  
+  indicator.classList.remove('hidden');
+  
+  if (isMyTurn) {
     indicator.classList.add('my-turn');
     text.classList.add('my-turn');
     text.textContent = '🎮 SUA VEZ DE JOGAR!';
     enableButtons(true);
   } else {
-    const currentPlayerName = state.playerOrder.map(id => {
-      // Get name from room players
-      return id;
-    }).join(', ');
-    indicator.classList.remove('hidden');
     indicator.classList.remove('my-turn');
     text.classList.remove('my-turn');
-    text.textContent = `⏳ Vez do jogador ${state.currentTurnIndex + 1}`;
+    // Tenta encontrar o nome do jogador
+    const playerIndex = state.currentTurnIndex + 1;
+    text.textContent = `⏳ Vez do jogador ${playerIndex}`;
     enableButtons(false);
   }
 }
@@ -1198,15 +1267,19 @@ async function updatePlayerScore() {
 async function nextRound() {
   if (!state.gameActive || state.finished) return;
   
-  // Move to next player
   const roomRef = doc(db, "rooms", state.roomId);
   const nextIndex = (state.currentTurnIndex + 1) % state.playerOrder.length;
   
-  await updateDoc(roomRef, {
+  console.log("Mudando turno de", state.currentTurnIndex, "para", nextIndex);
+  console.log("Próximo jogador:", state.playerOrder[nextIndex]);
+  
+  // Atualiza no Firebase
+  await updateDoc(roomRef, { 
     currentTurnIndex: nextIndex,
-    [`lastSpecial_${state.playerId}`]: null
+    lastTurnChange: serverTimestamp()
   });
   
+  // Atualiza localmente também
   state.currentTurnIndex = nextIndex;
   updateTurnIndicator();
   resetPhase();
