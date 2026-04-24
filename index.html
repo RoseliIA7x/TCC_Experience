@@ -344,63 +344,67 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg-dark);color:var(--tex
 <!-- Main Container -->
 <div class="container">
 
-  <!-- SCREEN 1: LOGIN -->
-  <div class="screen active" id="screen-login">
-    <div class="landing">
-      <div class="logo-wrap">
-        <div class="logo-icon">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2" opacity=".3"/>
-            <circle cx="50" cy="50" r="35" stroke="url(#g1)" stroke-width="1.5" opacity=".2"/>
-            <path d="M35 35 L50 25 L65 35 L65 55 L50 65 L35 55Z" stroke="url(#g1)" stroke-width="2" fill="rgba(0,212,255,.05)"/>
-            <circle cx="50" cy="45" r="8" fill="url(#g1)" opacity=".6"/>
-            <path d="M50 53 L50 70" stroke="url(#g1)" stroke-width="2"/>
-            <path d="M42 58 L50 63 L58 58" stroke="url(#g1)" stroke-width="1.5" fill="none"/>
-            <defs><linearGradient id="g1" x1="0" y1="0" x2="100" y2="100"><stop stop-color="#00d4ff"/><stop offset=".5" stop-color="#b44aff"/><stop offset="1" stop-color="#00ff88"/></linearGradient></defs>
-          </svg>
-        </div>
-        <div class="logo-title">TCC<br>EXPERIENCE</div>
-        <div class="logo-badge">⚡ Jogo Educativo Multiplayer</div>
+  <!-- SCREEN 1: HOME (Tela Inicial) -->
+<div class="screen active" id="screen-home">
+  <div class="landing">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2" opacity=".3"/>
+          <circle cx="50" cy="50" r="35" stroke="url(#g1)" stroke-width="1.5" opacity=".2"/>
+          <path d="M35 35 L50 25 L65 35 L65 55 L50 65 L35 55Z" stroke="url(#g1)" stroke-width="2" fill="rgba(0,212,255,.05)"/>
+          <circle cx="50" cy="45" r="8" fill="url(#g1)" opacity=".6"/>
+          <path d="M50 53 L50 70" stroke="url(#g1)" stroke-width="2"/>
+          <path d="M42 58 L50 63 L58 58" stroke="url(#g1)" stroke-width="1.5" fill="none"/>
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="100" y2="100"><stop stop-color="#00d4ff"/><stop offset=".5" stop-color="#b44aff"/><stop offset="1" stop-color="#00ff88"/></linearGradient></defs>
+        </svg>
       </div>
-      <p class="landing-desc">Entre com seu nome para começar a jogar</p>
-      <div class="input-group">
-        <label>NOME DE USUÁRIO</label>
-        <input type="text" class="text-input" id="loginName" placeholder="Digite seu nome..." maxlength="20">
-      </div>
-      <button class="btn btn-primary" id="btnLogin">🚀 CONTINUAR</button>
+      <div class="logo-title">TCC<br>EXPERIENCE</div>
+      <div class="logo-badge">⚡ Jogo Educativo Multiplayer</div>
+    </div>
+    
+    <p class="landing-desc" id="welcomeMessage">Bem-vindo de volta!</p>
+
+    <div class="welcome-buttons">
+      <button class="btn btn-create" id="btnCreateRoomHome">🎲 CRIAR SALA</button>
+      <button class="btn btn-join" id="btnJoinRoomHome">🔗 ENTRAR EM SALA</button>
+      <button class="btn btn-secondary" id="btnLogout" style="margin-top:12px">🚪 SAIR</button>
+    </div>
+
+    <!-- Global Ranking -->
+    <div id="global-ranking-wrap-home" class="global-ranking-wrap" style="margin-top:32px">
+      <p class="section-title" style="color:var(--neon-yellow)">🏆 TOP 3 VENCEDORES</p>
+      <ul id="global-ranking-list-home" class="global-ranking-list"></ul>
     </div>
   </div>
+</div>
 
-  <!-- SCREEN 2: WELCOME -->
-  <div class="screen" id="screen-welcome">
-    <div class="landing">
-      <div class="logo-wrap">
-        <div class="logo-title">BEM-VINDO!</div>
+<!-- SCREEN 2: LOGIN (apenas para primeiro acesso) -->
+<div class="screen" id="screen-login">
+  <div class="landing">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="url(#g1)" stroke-width="2" opacity=".3"/>
+          <circle cx="50" cy="50" r="35" stroke="url(#g1)" stroke-width="1.5" opacity=".2"/>
+          <path d="M35 35 L50 25 L65 35 L65 55 L50 65 L35 55Z" stroke="url(#g1)" stroke-width="2" fill="rgba(0,212,255,.05)"/>
+          <circle cx="50" cy="45" r="8" fill="url(#g1)" opacity=".6"/>
+          <path d="M50 53 L50 70" stroke="url(#g1)" stroke-width="2"/>
+          <path d="M42 58 L50 63 L58 58" stroke="url(#g1)" stroke-width="1.5" fill="none"/>
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="100" y2="100"><stop stop-color="#00d4ff"/><stop offset=".5" stop-color="#b44aff"/><stop offset="1" stop-color="#00ff88"/></linearGradient></defs>
+        </svg>
       </div>
-      
-      <div class="welcome-info">
-        <h3>📋 COMO JOGAR</h3>
-        <ul>
-          <li>Partidas de 10 minutos com até 10 jogadores</li>
-          <li>Responda perguntas de TCC e acumule pontos</li>
-          <li>Cada jogador joga na sua vez (ordem aleatória)</li>
-          <li>Use casas especiais estrategicamente</li>
-          <li>Quem fizer mais pontos vence!</li>
-        </ul>
-      </div>
-
-      <div class="welcome-buttons">
-        <button class="btn btn-create" id="btnCreateRoom">🎲 CRIAR SALA</button>
-        <button class="btn btn-join" id="btnJoinRoom">🔗 ENTRAR EM SALA</button>
-      </div>
-
-      <!-- Global Ranking -->
-      <div id="global-ranking-wrap" class="global-ranking-wrap">
-        <p class="section-title" style="color:var(--neon-yellow);margin-top:32px">🏆 TOP 3 VENCEDORES</p>
-        <ul id="global-ranking-list" class="global-ranking-list"></ul>
-      </div>
+      <div class="logo-title">TCC<br>EXPERIENCE</div>
+      <div class="logo-badge">⚡ Jogo Educativo Multiplayer</div>
     </div>
+    <p class="landing-desc">Entre com seu nome para começar a jogar</p>
+    <div class="input-group">
+      <label>NOME DE USUÁRIO</label>
+      <input type="text" class="text-input" id="loginName" placeholder="Digite seu nome..." maxlength="20">
+    </div>
+    <button class="btn btn-primary" id="btnLogin">🚀 CONTINUAR</button>
   </div>
+</div>
 
   <!-- SCREEN 3: LOBBY -->
   <div class="screen" id="screen-lobby">
@@ -657,6 +661,7 @@ const ALL_QUESTIONS = [
 
 // ===== GAME STATE =====
 const state = {
+  let currentUser = null; // Armazena o usuário logado
   playerName: '', playerId: '', roomId: '', isHost: false,
   score: 0, combo: 0, maxCombo: 0,
   totalQuestions: 0, correctAnswers: 0, history: [],
@@ -716,35 +721,28 @@ function showNotification(title, text) {
 }
 
 // ===== FIREBASE: GLOBAL RANKING =====
-function initGlobalRanking() {
-  const list = document.getElementById("global-ranking-list");
-  const wrap = document.getElementById("global-ranking-wrap");
+function initGlobalRankingHome() {
+  const list = document.getElementById("global-ranking-list-home");
+  const wrap = document.getElementById("global-ranking-wrap-home");
   
   if (!list || !wrap) {
-    console.error("Elementos do ranking não encontrados!");
+    console.error("Elementos do ranking home não encontrados!");
     return;
   }
-  
-  console.log("Iniciando ranking global...");
   
   const q = query(collection(db, "tcc_players"), orderBy("wins", "desc"), limit(3));
   
   onSnapshot(q, (snapshot) => {
-    console.log("Snapshot do ranking:", snapshot.size, "documentos");
-    
     const players = [];
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
-      console.log("Player:", data.name, "wins:", data.wins);
       if (data.wins > 0) players.push({ id: docSnap.id, ...data });
     });
     
     if (players.length === 0) { 
-      console.log("Nenhum player com vitórias");
       wrap.style.display = "none"; 
       return; 
     }
-    
     wrap.style.display = "block";
     
     list.innerHTML = players.map((p, i) => {
@@ -758,11 +756,6 @@ function initGlobalRanking() {
         <span class="gr-title ${t.cls}">${t.text}</span>
       </li>`;
     }).join("");
-    
-    console.log("Ranking atualizado:", players.length, "players");
-  }, (error) => {
-    console.error("Erro no ranking:", error);
-    wrap.style.display = "none";
   });
 }
 
@@ -773,7 +766,7 @@ function getTitleByWins(wins) {
   return { text: "🌱 Iniciante", cls: "iniciante" };
 }
 
-// ===== LOGIN & WELCOME =====
+// ===== LOGIN & HOME =====
 function login() {
   const name = document.getElementById('loginName').value.trim();
   if (!name) {
@@ -783,16 +776,38 @@ function login() {
     setTimeout(() => { inp.style.animation = ''; }, 400);
     return;
   }
-  state.playerName = name;
-  showScreen('screen-welcome');
+  
+  currentUser = name;
+  localStorage.setItem('tcc_currentUser', name);
+  showHomeScreen();
+}
+
+function showHomeScreen() {
+  document.getElementById('welcomeMessage').textContent = `Bem-vindo de volta, ${currentUser}!`;
+  showScreen('screen-home');
+  initGlobalRankingHome();
+}
+
+function logout() {
+  currentUser = null;
+  localStorage.removeItem('tcc_currentUser');
+  showScreen('screen-login');
 }
 
 function createRoom() {
+  if (!currentUser) {
+    showScreen('screen-login');
+    return;
+  }
   const roomCode = generateRoomCode();
   joinRoom(roomCode, true);
 }
 
 function joinRoomInput() {
+  if (!currentUser) {
+    showScreen('screen-login');
+    return;
+  }
   const code = prompt('Digite o código da sala:');
   if (code) joinRoom(code.toUpperCase(), false);
 }
@@ -1324,7 +1339,7 @@ async function leaveGame() {
       state.left = true;
     } catch(e) {}
     cleanup();
-    showScreen('screen-login');
+    showHomeScreen();
   }
 }
 
@@ -1460,15 +1475,20 @@ function createParticles() {
 
 // ===== EVENT LISTENERS =====
 function initEventListeners() {
+  // Login
   document.getElementById('btnLogin').addEventListener('click', login);
   document.getElementById('loginName').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
   
-  document.getElementById('btnCreateRoom').addEventListener('click', createRoom);
-  document.getElementById('btnJoinRoom').addEventListener('click', joinRoomInput);
+  // Home
+  document.getElementById('btnCreateRoomHome').addEventListener('click', createRoom);
+  document.getElementById('btnJoinRoomHome').addEventListener('click', joinRoomInput);
+  document.getElementById('btnLogout').addEventListener('click', logout);
   
+  // Lobby
   document.getElementById('btnStartAsHost').addEventListener('click', startGameAsHost);
-  document.getElementById('btnLeaveLobby').addEventListener('click', () => { cleanup(); showScreen('screen-login'); });
+  document.getElementById('btnLeaveLobby').addEventListener('click', () => { cleanup(); showHomeScreen(); });
   
+  // Game
   document.querySelectorAll('.color-btn').forEach(btn => {
     btn.addEventListener('click', () => selectColor(btn.dataset.cor));
   });
@@ -1479,7 +1499,7 @@ function initEventListeners() {
   document.getElementById('btnNext').addEventListener('click', nextRound);
   document.getElementById('btnFinish').addEventListener('click', finishMatch);
   document.getElementById('btnLeave').addEventListener('click', leaveGame);
-  document.getElementById('btnNewMatch').addEventListener('click', () => location.reload());
+  document.getElementById('btnNewMatch').addEventListener('click', () => { cleanup(); showHomeScreen(); });
   
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
@@ -1495,12 +1515,15 @@ function initEventListeners() {
 function init() {
   createParticles();
   initEventListeners();
-  initGlobalRanking();
+  
+  // Verifica se já tem usuário logado
+  const savedUser = localStorage.getItem('tcc_currentUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    showHomeScreen();
+  } else {
+    showScreen('screen-login');
+  }
+  
   console.log("🎮 TCC Experience Multiplayer loaded • Firebase connected");
 }
-
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-else init();
-</script>
-</body>
-</html>
