@@ -1475,55 +1475,106 @@ function createParticles() {
 
 // ===== EVENT LISTENERS =====
 function initEventListeners() {
-  // Login
-  document.getElementById('btnLogin').addEventListener('click', login);
-  document.getElementById('loginName').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+  // --- TELA DE LOGIN ---
+  const btnLogin = document.getElementById('btnLogin');
+  if (btnLogin) btnLogin.addEventListener('click', login);
   
-  // Home
-  document.getElementById('btnCreateRoomHome').addEventListener('click', createRoom);
-  document.getElementById('btnJoinRoomHome').addEventListener('click', joinRoomInput);
-  document.getElementById('btnLogout').addEventListener('click', logout);
+  const inputLogin = document.getElementById('loginName');
+  if (inputLogin) inputLogin.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+  // --- TELA HOME (INICIAL) ---
+  const btnCreate = document.getElementById('btnCreateRoomHome');
+  if (btnCreate) btnCreate.addEventListener('click', () => { console.log("Criar clicado"); createRoom(); });
   
-  // Lobby
-  document.getElementById('btnStartAsHost').addEventListener('click', startGameAsHost);
-  document.getElementById('btnLeaveLobby').addEventListener('click', () => { cleanup(); showHomeScreen(); });
+  const btnJoin = document.getElementById('btnJoinRoomHome');
+  if (btnJoin) btnJoin.addEventListener('click', () => { console.log("Entrar clicado"); joinRoomInput(); });
   
-  // Game
+  const btnLogout = document.getElementById('btnLogout');
+  if (btnLogout) btnLogout.addEventListener('click', logout);
+
+  // --- LOBBY ---
+  const btnStart = document.getElementById('btnStartAsHost');
+  if (btnStart) btnStart.addEventListener('click', startGameAsHost);
+  
+  const btnLeaveLobby = document.getElementById('btnLeaveLobby');
+  if (btnLeaveLobby) btnLeaveLobby.addEventListener('click', () => { cleanup(); showHomeScreen(); });
+
+  // --- JOGO (Cores e Opções) ---
   document.querySelectorAll('.color-btn').forEach(btn => {
-    btn.addEventListener('click', () => selectColor(btn.dataset.cor));
+    btn.addEventListener('click', () => {
+      console.log("Cor clicada:", btn.dataset.cor);
+      selectColor(btn.dataset.cor);
+    });
   });
+  
   document.querySelectorAll('.option-btn').forEach(btn => {
-    btn.addEventListener('click', () => answer(btn.dataset.resp));
+    btn.addEventListener('click', () => {
+      console.log("Opção clicada:", btn.dataset.resp);
+      answer(btn.dataset.resp);
+    });
   });
+
+  // --- JOGO (Botões de Ação) ---
+  const btnNext = document.getElementById('btnNext');
+  if (btnNext) btnNext.addEventListener('click', nextRound);
   
-  document.getElementById('btnNext').addEventListener('click', nextRound);
-  document.getElementById('btnFinish').addEventListener('click', finishMatch);
-  document.getElementById('btnLeave').addEventListener('click', leaveGame);
-  document.getElementById('btnNewMatch').addEventListener('click', () => { cleanup(); showHomeScreen(); });
+  const btnFinish = document.getElementById('btnFinish');
+  if (btnFinish) btnFinish.addEventListener('click', finishMatch);
   
+  const btnLeaveGame = document.getElementById('btnLeave');
+  if (btnLeaveGame) btnLeaveGame.addEventListener('click', leaveGame);
+  
+  const btnNewMatch = document.getElementById('btnNewMatch');
+  if (btnNewMatch) btnNewMatch.addEventListener('click', () => { cleanup(); showHomeScreen(); });
+
+  // --- ABAS ---
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
   });
+
+  // --- CASAS ESPECIAIS ---
+  const btnInsight = document.getElementById('btnInsight');
+  if (btnInsight) btnInsight.addEventListener('click', () => useSpecialHouse('insight'));
   
-  // Special Houses
-  document.getElementById('btnInsight').addEventListener('click', () => useSpecialHouse('insight'));
-  document.getElementById('btnImpulse').addEventListener('click', () => useSpecialHouse('impulse'));
-  document.getElementById('btnReevaluate').addEventListener('click', () => useSpecialHouse('reevaluate'));
+  const btnImpulse = document.getElementById('btnImpulse');
+  if (btnImpulse) btnImpulse.addEventListener('click', () => useSpecialHouse('impulse'));
+  
+  const btnReevaluate = document.getElementById('btnReevaluate');
+  if (btnReevaluate) btnReevaluate.addEventListener('click', () => useSpecialHouse('reevaluate'));
 }
 
 // ===== INIT =====
+// Função de Logout corrigida (Limpa tudo e volta pro login)
+function logout() {
+  if(confirm("Deseja sair e voltar para o login?")) {
+    currentUser = null;
+    localStorage.removeItem('tcc_currentUser'); // Remove a memória do navegador
+    cleanup();
+    showScreen('screen-login'); // Volta para a tela de digitar nome
+    document.getElementById('loginName').value = ''; // Limpa o campo
+  }
+}
+
+// Função de Inicialização
 function init() {
   createParticles();
-  initEventListeners();
   
   // Verifica se já tem usuário logado
   const savedUser = localStorage.getItem('tcc_currentUser');
+  
   if (savedUser) {
+    // Se já tem, vai direto pra home
     currentUser = savedUser;
-    showHomeScreen();
+    console.log("Usuário logado automaticamente:", currentUser);
+    initGlobalRankingHome();
+    showScreen('screen-home');
   } else {
+    // Se não tem, mostra o login
+    console.log("Nenhum usuário logado, mostrando login.");
     showScreen('screen-login');
   }
   
-  console.log("🎮 TCC Experience Multiplayer loaded • Firebase connected");
+  // Inicia os botões
+  initEventListeners();
+  console.log("🎮 Sistema iniciado!");
 }
